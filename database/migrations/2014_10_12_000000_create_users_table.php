@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->integer('plan'); // 0: Free, 1: Basic, 2: Standar, 3: Premium
+            $table->integer('plan')->default('0')->nullable(); // 0: Free, 1: Basic, 2: Standar, 3: Premium
             $table->string('api_token', 80)->unique()->nullable();
             $table->rememberToken();
             $table->timestamps();

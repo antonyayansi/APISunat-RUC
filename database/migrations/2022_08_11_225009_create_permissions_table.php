@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('credit'); //creditos que poseé el usuario, ejemplo: 20, 200, etc...
             $table->integer('consult'); //consultas ya realizadas, SE AUTO INCREMENTA POR CADA CONSULTA
             $table->string('token');
-            $table->string('estado');
+            $table->integer('estado');
             $table->timestamps();
         });
     }

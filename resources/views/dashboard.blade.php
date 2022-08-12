@@ -1,7 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Dashboard') }} 
+            @if (Auth::user()->plan == 0)
+                <span class="px-2 bg-gray-100 text-gray-600 rounded-md">Gratis</span>
+            @endif
+            @if (Auth::user()->plan == 1)
+                <span class="px-2 bg-green-100 text-green-600 rounded-md">Básico</span>
+            @endif
+            @if (Auth::user()->plan == 2)
+                <span class="px-2 bg-cyan-100 text-cyan-600 rounded-md">Estandar</span>
+            @endif
+            @if (Auth::user()->plan == 3)
+                <span class="px-2 bg-yellow-100 text-yellow-600 rounded-md">Premium</span>
+            @endif
         </h2>
     </x-slot>
 

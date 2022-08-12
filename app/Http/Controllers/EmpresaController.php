@@ -12,6 +12,12 @@ class EmpresaController extends Controller
 {
     public function ruc(Request $request, $ruc)
     {
+        if(!$request->token){
+            return [
+                'success' => false,
+                'message'=> "Token no encontrado, asegurese de enviar un token valido"
+            ];
+        }
         
         if( strlen($ruc) != 11)
         {
@@ -22,6 +28,13 @@ class EmpresaController extends Controller
         }
 
         $permiso = Permission::where('token', $request->token)->first();
+
+        if($permiso == null){
+            return [
+                'success' => false,
+                'message'=> "Token no encontrado, asegurese de enviar un token valido"
+            ];
+        }
 
         if($permiso->consult == $permiso->limite){
             DB::select('update permissions set estado = 0 where token = "'.$request->token.'"');

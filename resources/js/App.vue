@@ -9,10 +9,10 @@
                 <div class="w-full space-y-2">
                     <label for="plan" class="text-gray-600">Plan / Cantidad de consultas</label>
                     <select v-model="new_token.limit" name="" id="" class="w-full outline-none rounded border border-gray-300">
-                        <option value="100">Free (100)</option>
-                        <option value="1000" disabled>Basic (1,000)</option>
-                        <option value="10000" disabled>Estandar (10,000)</option>
-                        <option value="20000" disabled>Premium (20,000)</option>
+                        <option value="100" :disabled="user.plan != 0">Free (100)</option>
+                        <option value="1000" :disabled="user.plan != 1">Basic (1,000)</option>
+                        <option value="10000" :disabled="user.plan != 2">Estandar (10,000)</option>
+                        <option value="20000" :disabled="user.plan != 3">Premium (20,000)</option>
                     </select>
                 </div>
                 <div class="w-full pt-2">
@@ -67,18 +67,20 @@
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import CardModal from './components/CardModal.vue';
+import { useToast } from 'vue-toastification'
 
 export default {
     setup() {
         const isGenerate = ref(false);
         const isOpen = ref(false)
+        const toast = useToast()
 
         const user = ref({id: null})
         const tokens = ref([])
 
         const new_token = ref({
             user_id: '',
-            limit: 100,
+            limit: '',
             credit:'',
             consult: ''
         })
@@ -96,6 +98,11 @@ export default {
             new_token.value.consult = 0
 
             await axios.post('/api/generate', new_token.value).then(resp => {
+                if(resp.data.status == false){
+                    toast.error(resp.data.message)
+                }else {
+                    toast.success(resp.data.message)
+                }
                 isOpen.value = false
                 setTokens(user.value.id)
                 isGenerate.value = false
@@ -116,7 +123,8 @@ export default {
             isOpen,
             onGenerateToken,
             new_token,
-            tokens
+            tokens,
+            user
         };
     },
     components: { CardModal }

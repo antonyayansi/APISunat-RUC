@@ -17,11 +17,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('limit'); //limite de consultas por mes, ejemplo: 100, 200, 10000, etc...
+            $table->integer('limite'); //limite de consultas por mes, ejemplo: 100, 200, 10000, etc...
             $table->integer('credit'); //creditos que poseé el usuario, ejemplo: 20, 200, etc...
             $table->integer('consult'); //consultas ya realizadas, SE AUTO INCREMENTA POR CADA CONSULTA
             $table->string('token');
-            $table->string('status');
+            $table->string('estado');
             $table->timestamps();
         });
     }

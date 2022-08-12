@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\PadronController;
+use App\Http\Controllers\PermissionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,8 @@ Route::get('/padron/download', [PadronController::class, 'download']);
 Route::get('/padron/extractor', [PadronController::class, 'extractor']);
 Route::get('/padron/loaddata', [PadronController::class, 'loaddata']);
 
-/** Api de consulat de RUC */
+/** Api de consulta de RUC */
 Route::get('/ruc/{ruc}',[EmpresaController::class, 'ruc']);
 
+Route::get('/tokens/{user_id}', [PermissionController::class, 'index']);
+Route::post('/generate',[PermissionController::class, 'generate']);

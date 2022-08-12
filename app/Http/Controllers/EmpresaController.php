@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\District;
 use App\Models\Empresa;
+use App\Models\Permission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EmpresaController extends Controller
 {
-    public function ruc($ruc)
+    public function ruc(Request $request, $ruc)
     {
         
         if( strlen($ruc) != 11)
@@ -19,10 +21,27 @@ class EmpresaController extends Controller
             ];
         }
 
-        $site = Empresa::where('ruc', $ruc)->first();
+        $permiso = Permission::where('token', $request->token)->first();
 
+        if($permiso->consult == $permiso->limite){
+            DB::select('update permissions set estado = 0 where token = "'.$request->token.'"');
+            
+            return [
+                'success' => false,
+                'message'=> "Ya no puedes realizar mas consultas con este token.",
+                'postdata' => "Genera uno nuevo desde la consola de APIS"
+            ];
+        }
+
+        
+        $site = Empresa::where('ruc', $ruc)->first();
+        
         if($site)
-        {
+        {   
+            
+            $temp = $permiso->consult + 1;
+            DB::select('update permissions set consult = '.$temp.' where token = "'.$request->token.'"');
+
             $address = $this->getAddress($site);
             $location = $this->getDataLocation($site->ubigeo, $address);
 

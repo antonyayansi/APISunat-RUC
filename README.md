@@ -8,7 +8,7 @@
 </p>
 
 ## APISunat RUC by AntonyWyatt 🎋
-[DEMO](http://evening-shore-51048.heroku.com/dashboard).
+[DEMO](http://evening-shore-51048.herokuapp.com/dashboard).
 
 Este es un código fuente libre para consultar datos de un RUC mediante un API hecho en Laravel 9, se sincroniza con la SUNAT usando el método de padrón reducido.
 
